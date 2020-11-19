@@ -1,5 +1,5 @@
 const express = require('express');
-const {db} = require('./models');
+const {db, Page, User} = require('./models');
 const morgan = require('morgan');
 const app = express();
 
@@ -12,9 +12,14 @@ app.get('/', (req, res, next) => {
     res.send('hello world'); 
 })
 
-const PORT = 3000;
-
-app.listen(PORT, () => {
-      console.log(`App listening in port ${PORT}`);
-});
+const init = async () => {
+    await Page.sync();
+    await User.sync();
+    // make sure that you have a PORT constant
+    app.listen(PORT, () => {
+      console.log(`Server is listening on port ${PORT}!`);
+    });
+}
+  
+init();
   
